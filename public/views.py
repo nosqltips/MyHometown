@@ -10,3 +10,6 @@ def calculate():
 def say_hello(request):
     x = calculate()
     return render(request, 'hello.html', {'name': 'Me'})
+
+def home(request):
+    return render(request, 'public/index.html')
