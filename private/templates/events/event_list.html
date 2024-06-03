@@ -1,0 +1,20 @@
+{% extends "private/base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Number of events {{ events|length }}</h1>
+    {% for event in events %}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ event.author }}</a>
+            <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
+          </div>
+          <h2><a class="article-title" href="{% url 'event-detail' event.id %}">{{ event.title }}</a></h2>
+          <p class="article-content">{{ event.description.text }}</p>
+        </div>
+      </article>
+    {% endfor %}
+</div>
+{% endblock %}
