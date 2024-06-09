@@ -15,7 +15,7 @@
           </div>
           <h2><a class="article-title" href="{% url 'class-detail' class.id %}">{{ class.title }}</a></h2>
           <p class="article-content">{{ class.description }}</p>
-          <p class="article-content">{{ class.times }}</p>
+          <p class="article-content"><b>Date/Time:</b>{{ class.times }}</p>
         </div>
       </article>
     {% endfor %}

@@ -1,0 +1,18 @@
+{% extends "private/base.html" %}
+{% block title %}Delete Project{% endblock %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Project</legend>
+                <h2>Are you sure you want to delete project</h2>
+                <p>{{ project.title }}</p>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger btn=sm mt-1 mb-1" type="submit">Yes, Delete</button>
+                <a class="btn btn-outline-secondary" href="{% url  'project-detail' event.id %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

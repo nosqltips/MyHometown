@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.http import HttpResponse
 from django.views.generic import ListView
 from .forms import MissionaryRegistrationForm
-from common.models import Event, Class
+from common.models import Event, Class, Project
 
 def home(request):
     return render(request, 'private/index.html')
@@ -45,7 +45,7 @@ class EventDetailView(DetailView):
 
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
-    fields = ['title', 'location', 'url', 'description']
+    fields = ['title', 'time', 'location', 'url', 'description']
     template_name = 'events/event_create.html'
     context_object_name = 'event'
 
@@ -55,7 +55,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
-    fields = ['title', 'location', 'url', 'description']
+    fields = ['title', 'time', 'location', 'url', 'description']
     template_name = 'events/event_update.html'
     context_object_name = 'event'
 
@@ -130,6 +130,57 @@ class ClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         event = self.get_object()
         if self.request.user == event.author:
+            return True
+        return False
+
+
+# PROJECTS
+class ProjectListView(ListView):
+    model = Project
+    template_name = 'projects/project_list.html'
+    context_object_name = 'projects'
+    ordering = ['date_posted']    
+
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = 'projects/project_detail.html'
+    context_object_name = 'project'
+
+class ProjectCreateView(LoginRequiredMixin, CreateView):
+    model = Project
+    fields = ['title', 'time', 'location', 'url', 'description']
+    template_name = 'projects/project_create.html'
+    context_object_name = 'project'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Project
+    fields = ['title', 'time', 'location', 'url', 'description']
+    template_name = 'projects/project_update.html'
+    context_object_name = 'project'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.author:
+            return True
+        return False
+
+class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Project
+    success_url = '/private/project'
+    template_name = 'projects/project_delete.html'
+    context_object_name = 'project'
+
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.author:
             return True
         return False
 
