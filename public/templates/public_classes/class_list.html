@@ -1,11 +1,7 @@
-{% extends "private/base.html" %}
-{% block title %}Upcoming Events{% endblock %}
+{% extends "public/base.html" %}
+{% block title %}Index{% endblock %}
 
 {% block content %}
-<p>
-  <li class="btn btn-success btn=sm mt-1 mb-1"><a class="nav-item nav-link" href="{% url 'event-create' %}">Add Event</a></li>
-</p>
-
 <div class="container">
     {% for event in events %}
     <article class="media content-section">
@@ -14,7 +10,7 @@
             <a class="mr-2" href="#">{{ event.author }}</a>
             <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
           </div>
-          <h2><a class="article-title" href="{% url 'event-detail' event.id %}">{{ event.title }}</a></h2>
+          <h2><a class="article-title" href="{% url 'public-event-detail' event.id %}">{{ event.title }}</a></h2>
           <p class="article-content">{{ event.description }}</p>
         </div>
       </article>

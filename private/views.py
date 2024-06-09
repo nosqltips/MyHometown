@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.http import HttpResponse
 from django.views.generic import ListView
 from .forms import MissionaryRegistrationForm
-from common.models import Event
+from common.models import Event, Class
 
 def home(request):
     return render(request, 'private/index.html')
@@ -31,7 +31,7 @@ def register(request):
 def profile(request):
     return render(request, 'users/profile.html')
 
-
+# EVENTS
 class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
@@ -74,6 +74,58 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/private/event'
     template_name = 'events/event_delete.html'
     context_object_name = 'event'
+
+    def test_func(self):
+        event = self.get_object()
+        if self.request.user == event.author:
+            return True
+        return False
+
+# CLASSES
+class ClassListView(ListView):
+    model = Class
+    template_name = 'classes/class_list.html'
+    context_object_name = 'classes'
+    ordering = ['date_posted']    
+
+class ClassDetailView(DetailView):
+    model = Class
+    template_name = 'classes/class_detail.html'
+    context_object_name = 'class'
+
+class ClassCreateView(LoginRequiredMixin, CreateView):
+    model = Class
+    fields = ['title', 'location', 'times', 'description']
+    template_name = 'classes/class_create.html'
+    context_object_name = 'class'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class ClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Class
+    fields = ['title', 'location', 'times', 'description']
+    template_name = 'classes/class_update.html'
+    context_object_name = 'class'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+    
+    def test_func(self):
+        event = self.get_object()
+        if self.request.user == event.author:
+            return True
+        return False
+
+# Do we delete or disable?
+# What about class registrations?
+class ClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Class
+    success_url = '/private/class'
+    template_name = 'classes/class_delete.html'
+    context_object_name = 'class'
 
     def test_func(self):
         event = self.get_object()

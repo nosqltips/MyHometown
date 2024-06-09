@@ -1,0 +1,23 @@
+{% extends "private/base.html" %}
+{% block title %}Upcoming Classes{% endblock %}
+
+{% block content %}
+<p>
+  <li class="btn btn-success btn=sm mt-1 mb-1"><a class="nav-item nav-link" href="{% url 'class-create' %}">Add Class</a></li>
+</p>
+<div class="container">
+    {% for class in classes %}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ class.author }}</a>
+            <small class="text-muted">{{ class.date_posted|date:"F d, Y" }}</small>
+          </div>
+          <h2><a class="article-title" href="{% url 'class-detail' class.id %}">{{ class.title }}</a></h2>
+          <p class="article-content">{{ class.description }}</p>
+          <p class="article-content">{{ class.times }}</p>
+        </div>
+      </article>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "public/base.html" %}
+{% block title %}Index{% endblock %}
+
+{% block content %}
+<div class="container">
+  <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ event.author }}</a>
+          <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2 class="article-title">{{ event.title }}</h2>
+        <p class="article-content">{{ event.description.text }}</p>
+      </div>
+    </article>
+</div>
+{% endblock %}
