@@ -12,7 +12,7 @@ def home(request):
     return render(request, 'private/index.html')
 
 def about(request):
-    return HttpResponse('<h1>Blog About</h1>')
+    return render(request, 'private/about.html')
 
 def register(request):
     if request.method == 'POST':
@@ -43,9 +43,9 @@ class EventDetailView(DetailView):
     template_name = 'events/event_detail.html'
     context_object_name = 'event'
 
-class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
-    fields = ['title', 'location', 'url', 'description', 'date_posted']
+    fields = ['title', 'location', 'url', 'description']
     template_name = 'events/event_create.html'
     context_object_name = 'event'
 
@@ -53,9 +53,9 @@ class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class EventUpdateView(LoginRequiredMixin, UpdateView):
+class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
-    fields = ['title', 'location', 'url', 'description', 'date_posted']
+    fields = ['title', 'location', 'url', 'description']
     template_name = 'events/event_update.html'
     context_object_name = 'event'
 
@@ -71,8 +71,8 @@ class EventUpdateView(LoginRequiredMixin, UpdateView):
 
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event
-    success_url = '/'
-    template_name = 'events/event_detail.html'
+    success_url = '/private/event'
+    template_name = 'events/event_delete.html'
     context_object_name = 'event'
 
     def test_func(self):

@@ -1,5 +1,5 @@
 {% extends "private/base.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Event Detail{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -9,14 +9,17 @@
           <a class="mr-2" href="#">{{ event.author }}</a>
           <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
         </div>
-        {% if object.author == user %}
+        <h2 class="article-title">{{ event.title }}</h2>
+        <p class="article-content">{{ event.description }}</p>
+        {% if event.url %}
+          <a class="url" href="{{ event.url }}">{{ event.url }}</p>
+        {% endif %}
+        {% if event.author == user %}
           <div>
-            <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'event-update' %}">Update</a>
-            <a class="btn btn-danger btn=sm mt-1 mb-1" href="{% url 'event-delete' %}">Delete</a>
+            <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'event-update' event.id %}">Update</a>
+            <a class="btn btn-danger btn=sm mt-1 mb-1" href="{% url 'event-delete' event.id %}">Delete</a>
           </div>
         {% endif %}
-        <h2 class="article-title">{{ event.title }}</h2>
-        <p class="article-content">{{ event.description.text }}</p>
       </div>
     </article>
 </div>

@@ -6,12 +6,12 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Delete Post</legend>
-                <h2>Are you sire you want to delete post {{ event.title }}</h2>
-
+                <h2>Are you sure you want to delete eevent</h2>
+                <p>{{ event.title }}</p>
             </fieldset>
             <div class="form-group">
-                <button class="btn, btn-outline-danger" type="submit">Yes, Delete</button>
-                <a class="btn, btn-outline-secondary" href="{% url  'event-detail' event.id%}">Cancel</a>
+                <button class="btn btn-outline-danger btn=sm mt-1 mb-1" type="submit">Yes, Delete</button>
+                <a class="btn btn-outline-secondary" href="{% url  'event-detail' event.id %}">Cancel</a>
             </div>
         </form>
     </div>
