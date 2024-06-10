@@ -3,9 +3,10 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.forms import Textarea
+from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
-from django.views.generic import ListView
-from .forms import MissionaryRegistrationForm
+from .forms import MissionaryRegistrationForm, EventForm, ClassForm, ProjectForm
 from common.models import Event, Class, Project
 
 def home(request):
@@ -45,7 +46,7 @@ class EventDetailView(DetailView):
 
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
-    fields = ['title', 'time', 'location', 'url', 'description']
+    form_class = EventForm
     template_name = 'events/event_create.html'
     context_object_name = 'event'
 
@@ -55,7 +56,7 @@ class EventCreateView(LoginRequiredMixin, CreateView):
 
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
-    fields = ['title', 'time', 'location', 'url', 'description']
+    form_class = EventForm
     template_name = 'events/event_update.html'
     context_object_name = 'event'
 
@@ -95,7 +96,7 @@ class ClassDetailView(DetailView):
 
 class ClassCreateView(LoginRequiredMixin, CreateView):
     model = Class
-    fields = ['title', 'location', 'times', 'description']
+    form_class = ClassForm
     template_name = 'classes/class_create.html'
     context_object_name = 'class'
 
@@ -105,7 +106,7 @@ class ClassCreateView(LoginRequiredMixin, CreateView):
 
 class ClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Class
-    fields = ['title', 'location', 'times', 'description']
+    form_class = ClassForm
     template_name = 'classes/class_update.html'
     context_object_name = 'class'
 
@@ -148,7 +149,7 @@ class ProjectDetailView(DetailView):
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
-    fields = ['title', 'time', 'location', 'url', 'description']
+    form_class = ProjectForm
     template_name = 'projects/project_create.html'
     context_object_name = 'project'
 
@@ -158,7 +159,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
 class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
-    fields = ['title', 'time', 'location', 'url', 'description']
+    form_class = ProjectForm
     template_name = 'projects/project_update.html'
     context_object_name = 'project'
 

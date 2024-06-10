@@ -1,16 +1,16 @@
 {% extends "public/base.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Class Detail and Registration{% endblock %}
 
 {% block content %}
 <div class="container">
   <article class="media content-section">
       <div class="media-body">
         <div class="article-metadata">
-          <a class="mr-2" href="#">{{ event.author }}</a>
-          <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
+          <a class="mr-2" href="#">{{ class.author }}</a>
+          <small class="text-muted">{{ class.date_posted|date:"F d, Y" }}</small>
         </div>
-        <h2 class="article-title">{{ event.title }}</h2>
-        <p class="article-content">{{ event.description.text }}</p>
+        <h2 class="article-title">{{ class.title }}</h2>
+        <p class="article-content">{{ class.description }}</p>
       </div>
     </article>
 </div>

@@ -1,17 +1,17 @@
 {% extends "public/base.html" %}
-{% block title %}Index{% endblock %}
+{% block title %}Current Classes at CRC{% endblock %}
 
 {% block content %}
 <div class="container">
-    {% for event in events %}
+    {% for class in classes %}
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="#">{{ event.author }}</a>
-            <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
+            <a class="mr-2" href="#">{{ class.author }}</a>
+            <small class="text-muted">{{ class.date_posted|date:"F d, Y" }}</small>
           </div>
-          <h2><a class="article-title" href="{% url 'public-event-detail' event.id %}">{{ event.title }}</a></h2>
-          <p class="article-content">{{ event.description }}</p>
+          <h2><a class="article-title" href="{% url 'public-class-detail' class.id %}">{{ class.title }}</a></h2>
+          <p class="article-content">{{ class.description }}</p>
         </div>
       </article>
     {% endfor %}

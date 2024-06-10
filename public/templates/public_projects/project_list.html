@@ -1,11 +1,7 @@
-{% extends "private/base.html" %}
+{% extends "public/base.html" %}
 {% block title %}Upcoming Projects{% endblock %}
 
 {% block content %}
-<p>
-  <li class="btn btn-success btn=sm mt-1 mb-1"><a class="nav-item nav-link" href="{% url 'project-create' %}">Add Project</a></li>
-</p>
-
 <div class="container">
     {% for project in projects %}
     <article class="media content-section">
@@ -14,9 +10,9 @@
             <a class="mr-2" href="#">{{ project.author }}</a>
             <small class="text-muted">{{ project.date_posted|date:"F d, Y" }}</small>
           </div>
-          <h2><a class="article-title" href="{% url 'project-detail' project.id %}">{{ project.title }}</a></h2>
+          <h2><a class="article-title" href="{% url 'public-project-detail' project.id %}">{{ project.title }}</a></h2>
           <p class="article-content">{{ project.description }}</p>
-          <p class="article-content"><b>Date/Time:</b>{{ project.time }} {{ project.time }}</p>
+          <p class="article-content"><b>Date/Time:</b>{{ project.date }} {{ project.time }}</p>
         </div>
       </article>
     {% endfor %}
