@@ -1,5 +1,5 @@
 {% extends "private/base.html" %}
-{% block title %}Update Class{% endblock %}
+{% block title %}Create Class{% endblock %}
 
 {% load crispy_forms_tags %}
 {% block content %}
@@ -7,13 +7,13 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">New Event</legend>
+                <legend class="border-bottom mb-4">New CRC Class</legend>
                 {{ form|crispy }}
             </fieldset>
             <p>
                 <div class="form-group">
-                    <button class="btn, btn-outline-info" type="submit">Update Event</button>
-                </div>                    
+                    <button class="btn, btn-outline-info" type="submit">Post CRC Class</button>
+                </div>
             </p>
         </form>
     </div>

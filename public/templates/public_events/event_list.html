@@ -11,7 +11,11 @@
             <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
           </div>
           <h2><a class="article-title" href="{% url 'public-event-detail' event.id %}">{{ event.title }}</a></h2>
-          <p class="article-content">{{ event.description }}</p>
+          {% if crcclass.summary %}
+            <p class="article-content">{{ event.summary }}</p>
+          {% else %}
+            <p class="article-content">{{ event.description }}</p>
+          {% endif %}
           <p class="article-content"><b>Date/Time:</b>{{ event.time }} {{ event.time }}</p>
         </div>
       </article>

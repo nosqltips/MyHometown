@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from common.models import Event, Class, Project
+from common.models import Event, CRCClass, Project
 from django.views.generic import ListView, DetailView
 
 # Create your views here.
@@ -30,16 +30,16 @@ class EventDetailView(DetailView):
     template_name = 'public_events/event_detail.html'
     context_object_name = 'event'
     
-class ClassListView(ListView):
-    model = Class
-    template_name = 'public_classes/class_list.html'
-    context_object_name = 'classes'
+class CRCClassListView(ListView):
+    model = CRCClass
+    template_name = 'public_crcclasses/crcclass_list.html'
+    context_object_name = 'crcclasses'
     ordering = ['date_posted']    
 
-class ClassDetailView(DetailView):
-    model = Class
-    template_name = 'public_classes/class_detail.html'
-    context_object_name = 'class'
+class CRCClassDetailView(DetailView):
+    model = CRCClass
+    template_name = 'public_crcclasses/crcclass_detail.html'
+    context_object_name = 'crcclass'
     
 class ProjectListView(ListView):
     model = Project

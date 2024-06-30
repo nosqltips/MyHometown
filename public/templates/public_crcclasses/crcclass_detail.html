@@ -1,0 +1,21 @@
+{% extends "public/base.html" %}
+{% block title %}CRC Class Detail and Registration{% endblock %}
+
+{% block content %}
+<div class="container">
+  <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ crcclass.author }}</a>
+          <small class="text-muted">{{ crcclass.date_posted|date:"F d, Y" }}</small>
+        </div>
+        <h2 class="article-title">{{ crcclass.title }}</h2>
+        <p class="article-content">{{ crcclass.description }}</p>
+        <p class="article-content"><b>Date/Time:</b>{{ ccrclass.times }}</p>
+        {% if crcclass.url %}
+          <a class="url" href="{{ crcclass.url }}">{{ crcclass.url }}</p>
+        {% endif %}
+      </div>
+    </article>
+</div>
+{% endblock %}

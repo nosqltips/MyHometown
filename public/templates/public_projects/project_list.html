@@ -11,7 +11,11 @@
             <small class="text-muted">{{ project.date_posted|date:"F d, Y" }}</small>
           </div>
           <h2><a class="article-title" href="{% url 'public-project-detail' project.id %}">{{ project.title }}</a></h2>
-          <p class="article-content">{{ project.description }}</p>
+          {% if crcclass.summary %}
+            <p class="article-content">{{ project.summary }}</p>
+          {% else %}
+            <p class="article-content">{{ project.description }}</p>
+          {% endif %}
           <p class="article-content"><b>Date/Time:</b>{{ project.date }} {{ project.time }}</p>
         </div>
       </article>

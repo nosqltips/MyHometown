@@ -6,8 +6,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
-from .forms import MissionaryRegistrationForm, EventForm, ClassForm, ProjectForm
-from common.models import Event, Class, Project
+from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm
+from common.models import Event, CRCClass, Project
 
 def home(request):
     return render(request, 'private/index.html')
@@ -82,33 +82,33 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-# CLASSES
-class ClassListView(ListView):
-    model = Class
-    template_name = 'classes/class_list.html'
-    context_object_name = 'classes'
+# CRC CLASSES
+class CRCClassListView(ListView):
+    model = CRCClass
+    template_name = 'crcclasses/crcclass_list.html'
+    context_object_name = 'crcclasses'
     ordering = ['date_posted']    
 
-class ClassDetailView(DetailView):
-    model = Class
-    template_name = 'classes/class_detail.html'
-    context_object_name = 'class'
+class CRCClassDetailView(DetailView):
+    model = CRCClass
+    template_name = 'crcclasses/crcclass_detail.html'
+    context_object_name = 'crcclass'
 
-class ClassCreateView(LoginRequiredMixin, CreateView):
-    model = Class
-    form_class = ClassForm
-    template_name = 'classes/class_create.html'
-    context_object_name = 'class'
+class CRCClassCreateView(LoginRequiredMixin, CreateView):
+    model = CRCClass
+    form_class = CRCClassForm
+    template_name = 'crcclasses/crcclass_create.html'
+    context_object_name = 'crcclass'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class ClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Class
-    form_class = ClassForm
-    template_name = 'classes/class_update.html'
-    context_object_name = 'class'
+class CRCClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = CRCClass
+    form_class = CRCClassForm
+    template_name = 'crcclasses/crcclass_update.html'
+    context_object_name = 'crcclass'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -122,11 +122,11 @@ class ClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 # Do we delete or disable?
 # What about class registrations?
-class ClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Class
+class CRCClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = CRCClass
     success_url = '/private/class'
-    template_name = 'classes/class_delete.html'
-    context_object_name = 'class'
+    template_name = 'crcclasses/crcclass_delete.html'
+    context_object_name = 'crcclass'
 
     def test_func(self):
         event = self.get_object()

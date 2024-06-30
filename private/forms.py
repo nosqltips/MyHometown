@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from common.models import Event, Class, Project
+from common.models import Event, CRCClass, Project
 
 class BrowserDateInput(forms.widgets.DateInput):
     input_type = 'date'
@@ -42,21 +42,23 @@ class EventForm(forms.ModelForm):
             "time": _("Time of Event"),
             "location": _("Where will this event take place?"),
             "url": _("Related URL for more information if needed."),
+            "summary": _("Summary of the Event"),
             "description": _("Description of the Event")
         }
 
-class ClassForm(forms.ModelForm):
+class CRCClassForm(forms.ModelForm):
     class Meta:
-        model = Class
+        model = CRCClass
         fields = ['title', 'location', 'times', 'description']
         widgets = {
             "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
         }
         labels = {
-            "title": _("Title of Class"),
-            "time": _("Dates and times that class will take place"),
-            "location": _("Where will this event take place?"),
-            "description": _("Description of the Class")
+            "title": _("Title of CRC Class"),
+            "time": _("Dates and times that CRC class will take place"),
+            "location": _("Where will this CRC class take place?"),
+            "summary": _("Summary of the CRC Class"),
+            "description": _("Description of the CRC Class")
         }
 
 class ProjectForm(forms.ModelForm):
@@ -74,5 +76,6 @@ class ProjectForm(forms.ModelForm):
             "time": _("Time of Project"),
             "location": _("Where will this project take place?"),
             "url": _("Related URL for more information if needed."),
+            "summary": _("Summary of the Project"),
             "description": _("Description of the Project")
         }

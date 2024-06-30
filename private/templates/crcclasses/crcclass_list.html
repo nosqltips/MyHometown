@@ -1,0 +1,27 @@
+{% extends "private/base.html" %}
+{% block title %}Upcoming CRC Classes{% endblock %}
+
+{% block content %}
+<p>
+  <li class="btn btn-success btn=sm mt-1 mb-1"><a class="nav-item nav-link" href="{% url 'crcclass-create' %}">Add Class</a></li>
+</p>
+<div class="container">
+    {% for crcclass in crcclasses %}
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ crcclass.author }}</a>
+            <small class="text-muted">{{ crcclass.date_posted|date:"F d, Y" }}</small>
+          </div>
+          <h2><a class="article-title" href="{% url 'crcclass-detail' crcclass.id %}">{{ crcclass.title }}</a></h2>
+          {% if crcclass.summary %}
+            <p class="article-content">{{ crcclass.summary }}</p>
+          {% else %}
+            <p class="article-content">{{ crcclass.description }}</p>
+          {% endif %}
+          <p class="article-content"><b>Date/Time:</b>{{ crcclass.times }}</p>
+        </div>
+      </article>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib.auth import views as auth_views
 from .views import EventListView, EventDetailView, EventCreateView, EventUpdateView, EventDeleteView
-from .views import ClassListView, ClassDetailView, ClassCreateView, ClassUpdateView, ClassDeleteView
+from .views import CRCClassListView, CRCClassDetailView, CRCClassCreateView, CRCClassUpdateView, CRCClassDeleteView
 from .views import ProjectListView, ProjectDetailView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
 from django.urls import path
 from . import views
@@ -21,12 +21,12 @@ urlpatterns = [
     path('event/<int:pk>/delete', EventDeleteView.as_view(), name="event-delete"),
     path('event/new/', EventCreateView.as_view(), name="event-create"),
 
-    path('class/', ClassListView.as_view(), name="class-list"),
-    path('classes/', ClassListView.as_view(), name="class-list"),
-    path('class/<int:pk>/', ClassDetailView.as_view(), name="class-detail"),
-    path('class/<int:pk>/update', ClassUpdateView.as_view(), name="class-update"),
-    path('class/<int:pk>/delete', ClassDeleteView.as_view(), name="class-delete"),
-    path('class/new/', ClassCreateView.as_view(), name="class-create"),
+    path('crcclass/', CRCClassListView.as_view(), name="crcclass-list"),
+    path('crcclasses/', CRCClassListView.as_view(), name="crcclass-list"),
+    path('crcclass/<int:pk>/', CRCClassDetailView.as_view(), name="crcclass-detail"),
+    path('crcclass/<int:pk>/update', CRCClassUpdateView.as_view(), name="crcclass-update"),
+    path('crcclass/<int:pk>/delete', CRCClassDeleteView.as_view(), name="crcclass-delete"),
+    path('crcclass/new/', CRCClassCreateView.as_view(), name="crcclass-create"),
 
     path('project/', ProjectListView.as_view(), name="project-list"),
     path('projects/', ProjectListView.as_view(), name="project-list"),
