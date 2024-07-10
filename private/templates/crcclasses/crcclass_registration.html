@@ -1,0 +1,21 @@
+{% extends "private/base.html" %}
+{% block title %}Register for CRC Class{% endblock %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Register for CRC Class</legend>
+                {{ form|crispy }}
+            </fieldset>
+            <input type="hidden" name="crcclass_id" value="{{ crcclass_id }}" />
+            <p>
+                <div class="form-group">
+                    <button class="btn, btn-outline-info" type="submit">Register for CRC Class</button>
+                </div>
+            </p>
+        </form>
+    </div>
+{% endblock content %}

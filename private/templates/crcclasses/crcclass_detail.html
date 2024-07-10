@@ -11,10 +11,11 @@
         </div>
         <h2 class="article-title">{{ crcclass.title }}</h2>
         <p class="article-content">{{ crcclass.description }}</p>
-        <p class="article-content"><b>Date/Time:</b>{{ ccrclass.times }}</p>
+        <p class="article-content"><b>Date/Time:</b>{{ crclass.times }}</p>
         {% if crcclass.url %}
           <a class="url" href="{{ crcclass.url }}">{{ crcclass.url }}</p>
         {% endif %}
+        <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'crcclass-register' crcclass.id %}">Register someone for CRC Class</a>
         {% if crcclass.author == user %}
           <div>
             <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'crcclass-update' crcclass.id %}">Update</a>
@@ -22,6 +23,31 @@
           </div>
         {% endif %}
       </div>
-    </article>
+  </article>
+  <div>
+    <div class="container"> 
+      <h2 class="text-center"><u>Registrations for this class</u></h2><br>             
+      <table class="table table-striped"> 
+        <thead> 
+          <tr> 
+            <th>Name</th> 
+            <th>Phone</th> 
+            <th>Email</th> 
+            <th>Delete</th> 
+          </tr> 
+        </thead> 
+        <tbody> 
+        {% for registration in registrations %}
+          <tr> 
+            <td>{{ registration.name }}</td> 
+            <td>{{ registration.phone }}</td> 
+            <td>{{ registration.email }}</td> 
+            <td><a class="btn btn-outline-secondary" href="{% url  'crcclass-delete' registration.id %}">Delete</a></td> 
+          </tr> 
+        {% endfor %} 
+        </tbody> 
+      </table> 
+    </div> 
+  </div>
 </div>
 {% endblock %}

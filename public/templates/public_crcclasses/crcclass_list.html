@@ -10,13 +10,13 @@
             <a class="mr-2" href="#">{{ crcclass.author }}</a>
             <small class="text-muted">{{ crcclass.date_posted|date:"F d, Y" }}</small>
           </div>
-          <h2><a class="article-title" href="{% url 'crcclass-detail' crcclass.id %}">{{ crcclass.title }}</a></h2>
+          <h2><a class="article-title" href="{% url 'public-crcclass-detail' crcclass.id %}">{{ crcclass.title }}</a></h2>
           {% if crcclass.summary %}
             <p class="article-content">{{ crcclass.summary }}</p>
           {% else %}
             <p class="article-content">{{ crcclass.description }}</p>
           {% endif %}
-          <p class="article-content"><b>Date/Time:</b>{{ crcclass.times }}</p>
+          <p class="article-content"><b>Date/Time:</b> {{ crcclass.times }}</p>
         </div>
       </article>
     {% endfor %}

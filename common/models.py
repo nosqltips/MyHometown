@@ -35,18 +35,19 @@ class CRCClass(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('class-detail', kwargs={'pk': self.pk})
+        return reverse('crcclass-detail', kwargs={'pk': self.pk})
     
-class Signup(models.Model):
-    crcclass = models.ForeignKey(CRCClass, on_delete=models.CASCADE)
+class CRCRegister(models.Model):
+    crcclass = models.ForeignKey(CRCClass, related_name='registrations', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    name = models.CharField(max_length=512)
+    phone = models.CharField(max_length=15)
+    email = models.CharField(max_length=100, null=True)
 
     def __str__(self):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('class-detail', kwargs={'pk': self.pk})
+        return reverse('crcclass-detail', kwargs={'pk': self.pk})
 
 class Project(models.Model):
     title = models.CharField(max_length=100)

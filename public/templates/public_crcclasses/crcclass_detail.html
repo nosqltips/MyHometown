@@ -11,10 +11,11 @@
         </div>
         <h2 class="article-title">{{ crcclass.title }}</h2>
         <p class="article-content">{{ crcclass.description }}</p>
-        <p class="article-content"><b>Date/Time:</b>{{ ccrclass.times }}</p>
+        <p class="article-content"><b>Date/Time:</b> {{ crcclass.times }}</p>
         {% if crcclass.url %}
           <a class="url" href="{{ crcclass.url }}">{{ crcclass.url }}</p>
         {% endif %}
+        <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'public-crcclass-register' crcclass.id %}">Register for this CRC Class</a>
       </div>
     </article>
 </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -6,8 +6,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
-from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm
-from common.models import Event, CRCClass, Project
+from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm
+from common.models import Event, CRCClass, Project, CRCRegister
 
 def home(request):
     return render(request, 'private/index.html')
@@ -94,6 +94,14 @@ class CRCClassDetailView(DetailView):
     template_name = 'crcclasses/crcclass_detail.html'
     context_object_name = 'crcclass'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        crcclass_id = self.kwargs['pk']
+        crcclass = CRCClass.objects.filter(id=crcclass_id).first()
+        context['crcclass'] = crcclass
+        context['registrations'] = CRCRegister.objects.filter(crcclass=crcclass)
+        return context
+     
 class CRCClassCreateView(LoginRequiredMixin, CreateView):
     model = CRCClass
     form_class = CRCClassForm
@@ -124,7 +132,7 @@ class CRCClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 # What about class registrations?
 class CRCClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = CRCClass
-    success_url = '/private/class'
+    success_url = '/private/crcclasses'
     template_name = 'crcclasses/crcclass_delete.html'
     context_object_name = 'crcclass'
 
@@ -133,6 +141,33 @@ class CRCClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user == event.author:
             return True
         return False
+
+class CRCClassRegistrationView(CreateView):
+    model = CRCRegister
+    form_class = CRCRegistrationForm
+    template_name = 'crcclasses/crcclass_registration.html'
+    context_object_name = 'crcregister'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        crcclass_id = self.kwargs['pk']
+        context['crcclass_id'] = crcclass_id
+        return context
+
+    def form_valid(self, form):
+        id = self.kwargs['pk']
+        crcclass = get_object_or_404(CRCClass, id)
+        form.instance.crcclass = crcclass
+        return super().form_valid(form)
+           
+class CRCClassRegistrationDeleteView(LoginRequiredMixin,  DeleteView):
+    model = CRCRegister
+    template_name = 'crcclasses/crcclass_registration_confirm_delete.html'
+    context_object_name = 'crcregister'
+
+    def get_success_url(self, **kwargs):
+        id = self.object.crcclass.id
+        return reverse('crcclass-detail', kwargs={'pk': id}) 
 
 
 # PROJECTS

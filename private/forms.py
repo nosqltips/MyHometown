@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from common.models import Event, CRCClass, Project
+from common.models import Event, CRCClass, CRCRegister, Project
 
 class BrowserDateInput(forms.widgets.DateInput):
     input_type = 'date'
@@ -30,7 +30,7 @@ class ProfileUpdateForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'date', 'time', 'location', 'url', 'description']
+        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description']
         widgets = {
             "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
             "date": BrowserDateInput(),
@@ -49,7 +49,7 @@ class EventForm(forms.ModelForm):
 class CRCClassForm(forms.ModelForm):
     class Meta:
         model = CRCClass
-        fields = ['title', 'location', 'times', 'description']
+        fields = ['title', 'location', 'times', 'summary', 'description']
         widgets = {
             "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
         }
@@ -64,7 +64,7 @@ class CRCClassForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'date', 'time', 'location', 'url', 'description']
+        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description']
         widgets = {
             "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
             "date": BrowserDateInput(),
@@ -78,4 +78,15 @@ class ProjectForm(forms.ModelForm):
             "url": _("Related URL for more information if needed."),
             "summary": _("Summary of the Project"),
             "description": _("Description of the Project")
+        }
+
+class CRCRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = CRCRegister
+
+        fields = ['name', 'phone', 'email']
+        labels = {
+            "name": _("Name of person registering for this CRC class"),
+            "phone": _("Phone number"),
+            "email": _("Email address")
         }
