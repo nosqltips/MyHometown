@@ -1,5 +1,5 @@
 {% extends "private/base.html" %}
-{% block title %}Upcoming Events{% endblock %}
+{% block title %}Time Tasking{% endblock %}
 
 {% block content %}
 <p>
@@ -7,7 +7,7 @@
 </p>
 
 <div class="container"> 
-  <h2 class="text-center"><u>Time tracking for {{ author }}</u></h2><br>             
+  <h2 class="text-center"><u>Time tracking for {{ user.get_username }}</u></h2><br>             
   <table class="table table-striped"> 
     <thead> 
       <tr> 
