@@ -2,6 +2,7 @@ from django.contrib.auth import views as auth_views
 from .views import EventListView, EventDetailView, EventCreateView, EventUpdateView, EventDeleteView
 from .views import CRCClassListView, CRCClassDetailView, CRCClassCreateView, CRCClassUpdateView, CRCClassDeleteView, CRCClassRegistrationView, CRCClassRegistrationDeleteView
 from .views import ProjectListView, ProjectDetailView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
+from .views import TimeListView, TimeCreateView, TimeDeleteView
 from django.urls import path
 from . import views
 
@@ -35,5 +36,9 @@ urlpatterns = [
     path('project/<int:pk>/', ProjectDetailView.as_view(), name="project-detail"),
     path('project/<int:pk>/update', ProjectUpdateView.as_view(), name="project-update"),
     path('project/<int:pk>/delete', ProjectDeleteView.as_view(), name="project-delete"),
-    path('projectss/new/', ProjectCreateView.as_view(), name="project-create")
+    path('projectss/new/', ProjectCreateView.as_view(), name="project-create"),
+
+    path('time/', TimeListView.as_view(), name="time-list"),
+    path('time/new/', TimeCreateView.as_view(), name="time-create"),
+    path('time/<int:pk>/delete', TimeDeleteView.as_view(), name="time-delete")
 ]

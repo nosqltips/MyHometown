@@ -1,0 +1,41 @@
+{% extends "private/base.html" %}
+{% block title %}Upcoming Events{% endblock %}
+
+{% block content %}
+<p>
+  <li class="btn btn-success btn=sm mt-1 mb-1"><a class="nav-item nav-link" href="{% url 'time-create' %}">Add Time</a></li>
+</p>
+
+<div class="container"> 
+  <h2 class="text-center"><u>Time tracking for {{ author }}</u></h2><br>             
+  <table class="table table-striped"> 
+    <thead> 
+      <tr> 
+        <th>Location</th> 
+        <th>Date</th> 
+        <th>CRC Hours</th> 
+        <th>Service Hours</th> 
+        <th>Other Hours</th> 
+        <th>Delete Time</th> 
+      </tr> 
+    </thead> 
+    <tbody> 
+    {% if times %}
+      {% for time in times %}
+        <tr> 
+          <td>{{ time.location }}</td> 
+          <td>{{ time.date }}</td> 
+          <td>{{ time.crc }}</td> 
+          <td>{{ time.service }}</td> 
+          <td>{{ time.other }}</td> 
+          <td><a class="btn btn-outline-secondary" href="{% url 'time-delete' time.id %}">Delete</a></td> 
+        </tr> 
+      {% endfor %} 
+    {% else %} 
+      <td colspan="6">No time recorded</td> 
+    {% endif %} 
+    </tbody> 
+  </table> 
+</div> 
+
+{% endblock %}

@@ -6,8 +6,8 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
-from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm
-from common.models import Event, CRCClass, Project, CRCRegister
+from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
+from common.models import Event, CRCClass, Project, CRCRegister, TimeTrack
 
 def home(request):
     return render(request, 'private/index.html')
@@ -213,6 +213,35 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     success_url = '/private/project'
     template_name = 'projects/project_delete.html'
     context_object_name = 'project'
+
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.author:
+            return True
+        return False
+
+# TIME TRACKING
+class TimeListView(ListView):
+    model = TimeTrack
+    template_name = 'time/time_list.html'
+    context_object_name = 'times'
+    ordering = ['-date', '-date_posted']    
+
+class TimeCreateView(LoginRequiredMixin, CreateView):
+    model = TimeTrack
+    form_class = TimeTrackForm
+    template_name = 'time/time_create.html'
+    context_object_name = 'time'
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+class TimeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = TimeTrack
+    success_url = '/private/time'
+    template_name = 'time/time_delete.html'
+    context_object_name = 'time'
 
     def test_func(self):
         project = self.get_object()

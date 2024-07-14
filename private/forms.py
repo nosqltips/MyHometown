@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Profile
-from common.models import Event, CRCClass, CRCRegister, Project
+from common.models import Event, CRCClass, CRCRegister, Project, TimeTrack
 
 class BrowserDateInput(forms.widgets.DateInput):
     input_type = 'date'
@@ -61,6 +61,17 @@ class CRCClassForm(forms.ModelForm):
             "description": _("Description of the CRC Class")
         }
 
+class CRCRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = CRCRegister
+
+        fields = ['name', 'phone', 'email']
+        labels = {
+            "name": _("Name of person registering for this CRC class"),
+            "phone": _("Phone number"),
+            "email": _("Email address")
+        }
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
@@ -80,13 +91,17 @@ class ProjectForm(forms.ModelForm):
             "description": _("Description of the Project")
         }
 
-class CRCRegistrationForm(forms.ModelForm):
+class TimeTrackForm(forms.ModelForm):
     class Meta:
-        model = CRCRegister
-
-        fields = ['name', 'phone', 'email']
+        model = TimeTrack
+        fields = ['location', 'date', 'crc', 'service', 'other']
+        widgets = {
+            "date": BrowserDateInput(),
+        }
         labels = {
-            "name": _("Name of person registering for this CRC class"),
-            "phone": _("Phone number"),
-            "email": _("Email address")
+            "location": _("Location of Hours"),
+            "date": _("Date of Hours"),
+            "crc": _("CRC Hours"),
+            "service": _("Service Hours"),
+            "other": _("Any Other Hours")
         }

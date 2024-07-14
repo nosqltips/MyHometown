@@ -56,8 +56,8 @@ class Project(models.Model):
     date = models.DateField(default=timezone.now)
     url = models.CharField(max_length=255, null=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
-    summary = models.CharField(max_length=255, null=True)
-    description = models.CharField(max_length=4096, null=True)
+    summary = models.CharField(max_length=255, null=True, blank=True )
+    description = models.CharField(max_length=4096, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -65,3 +65,18 @@ class Project(models.Model):
     
     def get_absolute_url(self):
         return reverse('project-detail', kwargs={'pk': self.pk})
+
+class TimeTrack(models.Model):
+    location = models.CharField(max_length=255)
+    date = models.DateField(default=timezone.now)
+    date_posted = models.DateTimeField(default=timezone.now)
+    crc = models.FloatField(null=True, blank=True)
+    service = models.FloatField(null=True, blank=True)
+    other = models.FloatField(null=True, blank=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('time-list')
