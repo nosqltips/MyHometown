@@ -5,13 +5,13 @@
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Delete Event</legend>
-                <h2>Are you sure you want to delete event</h2>
-                <p>{{ event.title }}</p>
+                <legend class="border-bottom mb-4">Delete Time</legend>
+                <h2>Are you sure you want to delete time</h2>
+                <p>{{ time.location }} {{ time.date }}</p>
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-danger btn=sm mt-1 mb-1" type="submit">Yes, Delete</button>
-                <a class="btn btn-outline-secondary" href="{% url  'event-detail' event.id %}">Cancel</a>
+                <a class="btn btn-outline-secondary" href="{% url  'time-list' %}">Cancel</a>
             </div>
         </form>
     </div>
