@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from ckeditor.widgets import CKEditorWidget
 from .models import Profile
 from common.models import Event, CRCClass, CRCRegister, Project, TimeTrack
 
@@ -32,7 +33,7 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description']
         widgets = {
-            "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
+            "description": CKEditorWidget(),
             "date": BrowserDateInput(),
             "time": forms.TimeInput
         }
@@ -51,7 +52,7 @@ class CRCClassForm(forms.ModelForm):
         model = CRCClass
         fields = ['title', 'location', 'times', 'summary', 'description']
         widgets = {
-            "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
+            "description": CKEditorWidget(),
         }
         labels = {
             "title": _("Title of CRC Class"),
@@ -77,7 +78,7 @@ class ProjectForm(forms.ModelForm):
         model = Project
         fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description']
         widgets = {
-            "description": forms.Textarea(attrs={"cols": 80, "rows": 5}),
+            "description": CKEditorWidget(),
             "date": BrowserDateInput(),
             "time": forms.TimeInput
         }
@@ -105,3 +106,4 @@ class TimeTrackForm(forms.ModelForm):
             "service": _("Service Hours"),
             "other": _("Any Other Hours")
         }
+

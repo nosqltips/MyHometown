@@ -1,11 +1,12 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib import messages
+from datetime import datetime, timedelta
+from django.db.models import Avg, Sum, Count
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
-from django.http import HttpResponse
 from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
 from common.models import Event, CRCClass, Project, CRCRegister, TimeTrack
 
@@ -249,8 +250,63 @@ class TimeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-# def events(request):
-#     context = {
-#         'events': Event.objects.all()
-#     }
-#     return render(request, 'events/events.html', context)
+
+def aggregate_by_month():
+    today = datetime.today()
+    three_months_ago = today - timedelta(days=90)
+
+    report_data = []
+    for month in range((today.month - 1) - 2, today.month + 1):
+        if month < 1:
+            month += 12
+            year = today.year - 1
+        else:
+            year = today.year
+
+        start_date = datetime(year, month, 1)
+        end_date = datetime(year, month + 1, 1) if month != 12 else datetime(year + 1, 1, 1)
+
+        time_tracks = TimeTrack.objects.filter(date__gte=start_date, date__lt=end_date)
+        total_crc = time_tracks.aggregate(total_crc=Sum('crc'))['total_crc'] or 0
+        total_service = time_tracks.aggregate(total_service=Sum('service'))['total_service'] or 0
+        total_other = time_tracks.aggregate(total_other=Sum('other'))['total_other'] or 0
+
+        report_data.append({
+            'month': month,
+            'year': year,
+            'total_crc': total_crc,
+            'total_service': total_service,
+            'total_other': total_other
+        })
+
+    return report_data
+
+# Method to produce a report from TimeTrack model to aggregate by month
+class MonthlyReportView(ListView):
+    model = TimeTrack
+    template_name = 'reports/monthly_report.html'
+    context_object_name = 'report_data'
+
+    def get_queryset(self):
+        return aggregate_by_month()
+
+
+# Method to produce a report from TimeTrack model to aggregate by month
+class VolunteerReportView(ListView):
+    model = TimeTrack
+    template_name = 'reports/volunteer_report.html'
+    context_object_name = 'report_data'
+
+    def get_queryset(self):
+        # Aggregate the float fields by user for the last 30 days
+        thirty_days_ago = datetime.now() - timedelta(days=30)
+        aggregates = (TimeTrack.objects
+                        .filter(date__gte=thirty_days_ago)
+                        .values('author').annotate(
+                            crc_sum=Sum('crc'), 
+                            service_sum=Sum('service'), 
+                            other_sum=Sum('other')
+                        )
+                    )
+                    
+        return aggregates

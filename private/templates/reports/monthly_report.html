@@ -1,0 +1,30 @@
+{% extends "private/base.html" %}
+{% block title %}Time Tasking{% endblock %}
+
+{% block content %}
+<div class="container"> 
+  <h2 class="text-center"><u>Monthly Report</u></h2><br>             
+  <table class="table table-striped"> 
+    <thead> 
+      <tr> 
+        <th>Month</th> 
+        <th>Year</th> 
+        <th>CRC Hours</th> 
+        <th>Service Hours</th> 
+        <th>Other Hours</th> 
+      </tr> 
+    </thead> 
+    <tbody> 
+      {% for data in report_data %}
+        <tr> 
+          <td>{{ data.month }}</td> 
+          <td>{{ data.year }}</td> 
+          <td>{{ data.total_crc }}</td> 
+          <td>{{ data.total_service }}</td> 
+          <td>{{ data.total_other }}</td> 
+        </tr> 
+      {% endfor %} 
+    </tbody> 
+  </table> 
+</div> 
+{% endblock %}

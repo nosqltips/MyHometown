@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'crispy_bootstrap4',
     'public',
     'private',
-    'common',        
+    'common',
+    'ckeditor',
+    'ckeditor_uploader',      
     'debug_toolbar',
 ]
 
@@ -136,6 +138,15 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap4"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
+    },
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

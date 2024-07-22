@@ -3,6 +3,7 @@ from .views import EventListView, EventDetailView, EventCreateView, EventUpdateV
 from .views import CRCClassListView, CRCClassDetailView, CRCClassCreateView, CRCClassUpdateView, CRCClassDeleteView, CRCClassRegistrationView, CRCClassRegistrationDeleteView
 from .views import ProjectListView, ProjectDetailView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
 from .views import TimeListView, TimeCreateView, TimeDeleteView
+from .views import MonthlyReportView, VolunteerReportView
 from django.urls import path
 from . import views
 
@@ -40,5 +41,8 @@ urlpatterns = [
 
     path('time/', TimeListView.as_view(), name="time-list"),
     path('time/new/', TimeCreateView.as_view(), name="time-create"),
-    path('time/<int:pk>/delete', TimeDeleteView.as_view(), name="time-delete")
+    path('time/<int:pk>/delete', TimeDeleteView.as_view(), name="time-delete"),
+
+    path('report/monthly', MonthlyReportView.as_view(), name="monthly-report"),
+    path('report/volunteer', VolunteerReportView.as_view(), name="volunteer-report")
 ]
