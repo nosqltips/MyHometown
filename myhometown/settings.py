@@ -43,8 +43,7 @@ INSTALLED_APPS = [
     'public',
     'private',
     'common',
-    'ckeditor',
-    'ckeditor_uploader',      
+    'django_ckeditor_5', 
     'debug_toolbar',
 ]
 
@@ -139,12 +138,13 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_CONFIGS = {
+CKEDITOR_5_CONFIGS = {
     'default': {
-        'toolbar': 'full',
-        'height': 300,
-        'width': '100%',
+        'toolbar': ['heading', '|', 'bold', 'italic', 'link',
+                    'bulletedList', 'numberedList', 'blockQuote', 'imageUpload', ],
+    },
+    'extends': {
+        # configure your toolbar and plugins here
     },
 }
 

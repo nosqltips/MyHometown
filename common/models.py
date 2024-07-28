@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -13,7 +14,7 @@ class Event(models.Model):
     url = models.CharField(max_length=255, null=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     summary = models.CharField(max_length=255, null=True)
-    description = models.CharField(max_length=4096, null=True)
+    description = RichTextField(max_length=4096, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -28,7 +29,7 @@ class CRCClass(models.Model):
     times = models.CharField(max_length=255)
     date_posted = models.DateTimeField(default=timezone.now)
     summary = models.CharField(max_length=255, null=True)
-    description = models.CharField(max_length=4096, null=True)
+    description = RichTextField(max_length=4096, null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -57,7 +58,7 @@ class Project(models.Model):
     url = models.CharField(max_length=255, null=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
     summary = models.CharField(max_length=255, null=True, blank=True )
-    description = models.CharField(max_length=4096, null=True, blank=True)
+    description = RichTextField(max_length=4096, null=True, blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

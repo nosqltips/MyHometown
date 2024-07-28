@@ -1,7 +1,10 @@
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.contrib import messages
 from datetime import datetime, timedelta
-from django.db.models import Avg, Sum, Count
+import calendar
+import csv
+from django.http import HttpResponse
+from django.db.models import Avg, Sum, Count, F
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -271,8 +274,9 @@ def aggregate_by_month():
         total_service = time_tracks.aggregate(total_service=Sum('service'))['total_service'] or 0
         total_other = time_tracks.aggregate(total_other=Sum('other'))['total_other'] or 0
 
+        month_name = calendar.month_name[month]
         report_data.append({
-            'month': month,
+            'month': month_name,
             'year': year,
             'total_crc': total_crc,
             'total_service': total_service,
@@ -290,6 +294,21 @@ class MonthlyReportView(ListView):
     def get_queryset(self):
         return aggregate_by_month()
 
+def export_to_csv(request):
+    # Call the existing method to generate the data
+    data = aggregate_by_month()
+
+    # Create a CSV response
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="monthly_report.csv"'
+
+    # Write the CSV data to the response
+    writer = csv.DictWriter(response, fieldnames=['month', 'year', 'total_crc', 'total_service', 'total_other'])
+    writer.writeheader()
+    for row in data:
+        writer.writerow(row)
+
+    return response
 
 # Method to produce a report from TimeTrack model to aggregate by month
 class VolunteerReportView(ListView):
@@ -302,7 +321,9 @@ class VolunteerReportView(ListView):
         thirty_days_ago = datetime.now() - timedelta(days=30)
         aggregates = (TimeTrack.objects
                         .filter(date__gte=thirty_days_ago)
-                        .values('author').annotate(
+                        .annotate(author_username=F('author__username'))  # Add this line
+                        .values('author_username')  # Update this line
+                        .annotate(
                             crc_sum=Sum('crc'), 
                             service_sum=Sum('service'), 
                             other_sum=Sum('other')

@@ -1,7 +1,8 @@
 {% extends "private/base.html" %}
-{% block title %}Time Tasking{% endblock %}
+{% block title %}Time Report{% endblock %}
 
 {% block content %}
+<button onclick="location.href='{% url 'export_to_csv' %}'">Export to CSV</button>
 <div class="container"> 
   <h2 class="text-center"><u>Monthly Report</u></h2><br>             
   <table class="table table-striped"> 

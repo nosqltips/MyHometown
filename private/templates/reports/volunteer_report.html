@@ -1,14 +1,13 @@
 {% extends "private/base.html" %}
-{% block title %}Time Tasking{% endblock %}
+{% block title %}Time Report{% endblock %}
 
 {% block content %}
 <div class="container"> 
-  <h2 class="text-center"><u>Monthly Report</u></h2><br>             
+  <h2 class="text-center"><u>Volunteer Report Last 30 Days</u></h2><br>             
   <table class="table table-striped"> 
     <thead> 
       <tr> 
-        <th>Month</th> 
-        <th>Year</th> 
+        <th>Author</th> 
         <th>CRC Hours</th> 
         <th>Service Hours</th> 
         <th>Other Hours</th> 
@@ -17,11 +16,10 @@
     <tbody> 
       {% for data in report_data %}
         <tr> 
-          <td>{{ data.month }}</td> 
-          <td>{{ data.year }}</td> 
-          <td>{{ data.total_crc }}</td> 
-          <td>{{ data.total_service }}</td> 
-          <td>{{ data.total_other }}</td> 
+          <td>{{ data.author_username }}</td> 
+          <td>{{ data.crc_sum }}</td> 
+          <td>{{ data.service_sum }}</td> 
+          <td>{{ data.other_sum }}</td> 
         </tr> 
       {% endfor %} 
     </tbody> 

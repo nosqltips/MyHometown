@@ -24,7 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('public.urls')),
     path('private/', include('private.urls')),
-    path('ckeditor/', include('ckeditor_uploader.urls')),
+    path("ckeditor/", include('django_ckeditor_5.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
 ]
 
