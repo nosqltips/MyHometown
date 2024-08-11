@@ -2,7 +2,14 @@
 {% block title %}Time Report{% endblock %}
 
 {% block content %}
-<button onclick="location.href='{% url 'export_to_csv' %}'">Export to CSV</button>
+<button class="export-to-csv" data-url="{% url 'export_to_csv' %}">Export to CSV</button>
+{% block javascript %}
+  <script>
+    document.querySelector('.export-to-csv').addEventListener('click', function() {
+      window.location.href = this.getAttribute('data-url');
+    });
+  </script>
+{% endblock %}
 <div class="container"> 
   <h2 class="text-center"><u>Monthly Report</u></h2><br>             
   <table class="table table-striped"> 

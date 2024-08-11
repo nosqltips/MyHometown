@@ -10,7 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
-from .forms import MissionaryRegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
+from .forms import RegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
 from common.models import Event, CRCClass, Project, CRCRegister, TimeTrack
 
 def home(request):
@@ -19,9 +19,20 @@ def home(request):
 def about(request):
     return render(request, 'private/about.html')
 
+def user_profile(request):
+    user_profile = request.user.userprofile
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('user_profile')
+    else:
+        form = RegistrationForm(instance=user_profile)
+    return render(request, 'user_profile.html', {'form': form})
+
 def register(request):
     if request.method == 'POST':
-        form = MissionaryRegistrationForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
             username = form.clean_password.get('username')
@@ -29,7 +40,7 @@ def register(request):
             return redirect('login')
 
     else:
-        form = MissionaryRegistrationForm()
+        form = RegistrationForm()
         return render(request, 'users/register.html', {'form': form})
 
 @login_required

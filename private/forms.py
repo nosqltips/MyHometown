@@ -4,12 +4,37 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from ckeditor.widgets import CKEditorWidget
 from .models import Profile
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Fieldset, HTML, ButtonHolder, Submit
 from common.models import Event, CRCClass, CRCRegister, Project, TimeTrack
 
 class BrowserDateInput(forms.widgets.DateInput):
     input_type = 'date'
 
-class MissionaryRegistrationForm(UserCreationForm):
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('department', 'profile_picture', 'is_missionary')
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'user_profile_form'
+        self.helper.form_method = 'post'
+        self.helper.form_enctype = 'multipart/form-data'
+        self.helper.layout = Layout(
+            Fieldset(
+                'Profile',
+                Field('department'),
+                Field('profile_picture'),
+                Field('is_missionary')
+            ),
+            ButtonHolder(
+                Submit('submit', 'Save Changes')
+            )
+        )
+
+class RegistrationForm(UserCreationForm):
     email = forms.EmailField
 
     class Meta:
@@ -26,7 +51,7 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['image']
+        fields = ['profile_picture']
 
 class EventForm(forms.ModelForm):
     class Meta:
