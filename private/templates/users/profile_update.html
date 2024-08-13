@@ -1,11 +1,11 @@
 {% extends "private/base.html" %}
-{% block title %}Register Volunteer{% endblock %}
+{% block title %}Update Profile{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
     <div class="content-section">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            <legend class="border-bottom mb-4">Register Volunteer</legend>
+            <legend class="border-bottom mb-4">Update Profile</legend>
             <fieldset class="form-group">
                 {{ user_form|crispy }}
             </fieldset>
@@ -15,7 +15,7 @@
             <br>
             <p>
                 <div class="form-group">
-                    <button class="btn, btn-outline-info" type="submit">Register</button>
+                    <button class="btn, btn-outline-info" type="submit">Update</button>
                 </div>
             </p>
         </form>

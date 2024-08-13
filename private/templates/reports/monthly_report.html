@@ -2,7 +2,7 @@
 {% block title %}Time Report{% endblock %}
 
 {% block content %}
-<button class="export-to-csv" data-url="{% url 'export_to_csv' %}">Export to CSV</button>
+<button class="export-to-csv btn btn-secondary btn=sm mt-1 mb-1" data-url="{% url 'export_to_csv' %}">Export to CSV</button>
 {% block javascript %}
   <script>
     document.querySelector('.export-to-csv').addEventListener('click', function() {

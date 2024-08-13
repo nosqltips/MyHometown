@@ -11,35 +11,14 @@ from common.models import Event, CRCClass, CRCRegister, Project, TimeTrack
 class BrowserDateInput(forms.widgets.DateInput):
     input_type = 'date'
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ('department', 'profile_picture', 'is_missionary')
-
-    def __init__(self, *args, **kwargs):
-        super(UserProfileForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_id = 'user_profile_form'
-        self.helper.form_method = 'post'
-        self.helper.form_enctype = 'multipart/form-data'
-        self.helper.layout = Layout(
-            Fieldset(
-                'Profile',
-                Field('department'),
-                Field('profile_picture'),
-                Field('is_missionary')
-            ),
-            ButtonHolder(
-                Submit('submit', 'Save Changes')
-            )
-        )
-
-class RegistrationForm(UserCreationForm):
-    email = forms.EmailField
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+    first_name = forms.CharField(max_length=255)
+    last_name = forms.CharField(max_length=255)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField
@@ -48,10 +27,57 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('is_missionary', 'department', 'profile_picture')
+
+        labels = {
+            "is_missionary": _("Is this Volunteer a missionary"),
+            "department": _("Volunteer department, usually CRC or Service"),
+            "profile_picture": _("Profile Picture")
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'user_profile_form'
+        self.helper.form_method = 'post'
+        self.helper.form_enctype = 'multipart/form-data'
+        self.helper.layout = Layout(
+            HTML('<br>'),
+            Field('is_missionary', css_class='form-group col-md-6'),
+            Field('department', css_class='form-group col-md-6'),
+            Field('profile_picture', css_class='form-group col-md-6'),
+            ButtonHolder(
+                Submit('submit', 'Save Changes')
+            )
+        )
+
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['profile_picture']
+        fields = ('department', 'profile_picture')
+
+        labels = {
+            "department": _("Volunteer department, usually CRC or Service"),
+            "profile_picture": _("Profile Picture")
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileUpdateForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'user_profile_update_form'
+        self.helper.form_method = 'post'
+        self.helper.form_enctype = 'multipart/form-data'
+        self.helper.layout = Layout(
+            HTML('<br>'),
+            Field('department', css_class='form-group col-md-6'),
+            Field('profile_picture', css_class='form-group col-md-6'),
+            ButtonHolder(
+                Submit('submit', 'Save Changes')
+            )
+        )
 
 class EventForm(forms.ModelForm):
     class Meta:

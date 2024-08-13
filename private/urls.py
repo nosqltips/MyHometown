@@ -2,7 +2,7 @@ from django.contrib.auth import views as auth_views
 from .views import EventListView, EventDetailView, EventCreateView, EventUpdateView, EventDeleteView
 from .views import CRCClassListView, CRCClassDetailView, CRCClassCreateView, CRCClassUpdateView, CRCClassDeleteView, CRCClassRegistrationView, CRCClassRegistrationDeleteView
 from .views import ProjectListView, ProjectDetailView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
-from .views import TimeListView, TimeCreateView, TimeDeleteView
+from .views import TimeListView, TimeCreateView, TimeDeleteView, ProfileUpdateView
 from .views import MonthlyReportView, VolunteerReportView, export_to_csv
 from django.urls import path
 from . import views
@@ -11,9 +11,10 @@ from . import views
 urlpatterns = [
     path('', views.home, name="home"),
     path('login', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
-    path('logout', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
+    path('logout', auth_views.LogoutView.as_view(next_page='home', template_name='users/logout.html'), name='logout'),
     path('register', views.register, name='register'),
-    path('profile', views.profile, name='profile'),
+    path('profile/<int:pk>/', views.profile, name='profile'),
+    path('profile-update/<int:pk>/', views.ProfileUpdateView.as_view(template_name='users/profile_update.html'), name='profile-update'),
     path('about', views.about, name="about"),
 
     path('event/', EventListView.as_view(), name="event-list"),

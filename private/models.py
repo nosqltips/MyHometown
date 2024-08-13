@@ -15,12 +15,24 @@ class Profile(models.Model):
                                               options={'quality': 60})
     is_missionary = models.BooleanField(default=False)
 
+    def get_profile_picture(self):
+        if self.profile_picture:
+            return self.profile_picture.url
+        # or any other default image
+        return '/static/default_profile_picture.png'
+    
+    def get_profile_picture_thumbnail(self):
+        if self.profile_picture:
+            return self.profile_picture_thumbnail.url
+        # or any other default image
+        return '/static/default_profile_thumbnail_pic.png.png'
+    
     def __str__(self):
-        return "f'{self.user.first_name}, {self.user.last_name}'"
+        return f'{self.user.first_name} {self.user.last_name}'
  
 class TimeLog(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     time = models.FloatField
 
     def __str__(self):
-        return "f'{self.user.first_name}, {self.user.last_name}'"
+        return f'{self.user.first_name} {self.user.last_name}'

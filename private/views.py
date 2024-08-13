@@ -3,15 +3,17 @@ from django.contrib import messages
 from datetime import datetime, timedelta
 import calendar
 import csv
-from django.http import HttpResponse
-from django.db.models import Avg, Sum, Count, F
+from django.urls import reverse_lazy, resolve
+from django.http import HttpResponse, Http404
+from django.db.models import Sum, F
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.forms import Textarea
 from django.utils.translation import gettext_lazy as _
-from .forms import RegistrationForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileForm, ProfileUpdateForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
 from common.models import Event, CRCClass, Project, CRCRegister, TimeTrack
+from .models import Profile
 
 def home(request):
     return render(request, 'private/index.html')
@@ -19,33 +21,83 @@ def home(request):
 def about(request):
     return render(request, 'private/about.html')
 
-def user_profile(request):
-    user_profile = request.user.userprofile
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST, request.FILES, instance=user_profile)
-        if form.is_valid():
-            form.save()
-            return redirect('user_profile')
-    else:
-        form = RegistrationForm(instance=user_profile)
-    return render(request, 'user_profile.html', {'form': form})
-
+@login_required
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.clean_password.get('username')
+        user_form = UserRegisterForm(request.POST)
+        profile_form = ProfileForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            login(request, user)
             messages.success(request, f'Your account has been created! You can now log in.')
-            return redirect('login')
-
+            return redirect('home')
     else:
-        form = RegistrationForm()
-        return render(request, 'users/register.html', {'form': form})
+        user_form = UserRegisterForm()
+        profile_form = ProfileForm()
+    return render(request, 'users/register.html', {'user_form': user_form, 'profile_form': profile_form})
 
 @login_required
-def profile(request):
-    return render(request, 'users/profile.html')
+def profile(request, pk):
+    profile = Profile.objects.get(pk=pk)
+    return render(request, 'users/profile.html', {'profile': profile})
+
+@login_required
+def profile_uupdate(request, pk):
+    if request.method == 'POST':
+        user_form = UserUpdateForm(request.POST)
+        profile_form = ProfileUpdateForm(request.POST)
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile = profile_form.save(commit=False)
+            profile.user = user
+            profile.save()
+            login(request, user)
+            messages.success(request, f'Your account has been updated.')
+            return redirect('home')
+    else:
+        user_form = UserRegisterForm()
+        profile_form = ProfileForm()
+    return render(request, 'users/profile_update.html', {'user_form': user_form, 'profile_form': profile_form})
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileUpdateForm
+    template_name = 'users/profile_update.html'
+
+    def get_object(self):
+        try:
+            return Profile.objects.get(pk=self.kwargs['pk'])
+        except Profile.DoesNotExist:
+            raise Http404('Profile not found')
+
+    def get_success_url(self):
+        pk = self.object.pk
+        return reverse('profile', kwargs={'pk': pk})
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
+        profile = self.get_object()
+        context['user_form'] = UserUpdateForm(instance=profile.user)
+        context['profile_form'] = ProfileUpdateForm(instance=profile)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = self.get_form()
+        if user_form.is_valid() and profile_form.is_valid():
+            user = user_form.save()
+            profile_form.save(commit=False)
+            profile_form.instance.user = user
+            profile_form.save()
+            messages.success(request, f'Your account has been updated.')
+            return redirect(reverse('profile', args=[self.object.pk]))
+        else:
+            return self.render_to_response(self.get_context_data(user_form=user_form, profile_form=profile_form))
 
 # EVENTS
 class EventListView(ListView):

@@ -1,7 +1,23 @@
 {% extends "private/base.html" %}
-{% block title %}Missionary Profile{% endblock %}
+{% block title %}Volunteer Profile{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <h1>{{ user.username }}</h1>
-<!-- user_profile.html -->
-<img src="{{ user.profile.profile_picture_thumbnail.url }}" alt="Profile Picture">{% endblock content %}
+<div class="container">
+    <article class="media content-section">
+        <div class="media-body">
+          <div class="article-metadata">
+            <h3 class="article-title">{{ profile.user.first_name }} {{ profile.user.last_name }}</h3>
+            <p class="article-content"><img src="{{ profile.get_profile_picture_thumbnail }}" alt="Profile Photo"></p>
+        </div>
+          <p class="article-content">Username: {{ profile.user.username }}</p>
+          <p class="article-content">Email: {{ profile.user.email }}</p>
+          <p class="article-content">Is Missionary: {{ profile.is_missionary }}</p>
+          <p class="article-content">Is Staff: {{ profile.user.is_staff }}</p>
+          <p class="article-content">Department: {{ profile.department }}</p>
+        </div>
+        <div>
+            <a class="btn btn-primary btn=sm mt-1 mb-1" href="{% url 'profile-update' profile.id %}">Update</a>
+          </div>
+      </article>
+  </div>
+{% endblock content %}
