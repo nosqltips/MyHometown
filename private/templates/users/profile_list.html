@@ -1,0 +1,26 @@
+{% extends "private/base.html" %}
+{% block title %}Upcoming Projects{% endblock %}
+
+{% block content %}
+<div class="container"> 
+  <h2 class="text-center"><u>Volunteer Profils</u></h2><br>             
+  <table class="table table-striped"> 
+    <thead> 
+      <tr> 
+        <th>Name</th> 
+        <th>User Name</th> 
+        <th>Missionary</th> 
+      </tr> 
+    </thead> 
+    <tbody> 
+      {% for profile in profiles %}
+        <tr> 
+          <td>{{ profile.user.first_name }}, {{ profile.user.last_name }}</td> 
+          <td>{{ profile.user.username }}</td> 
+          <td>{{ profile.is_missionary }}</td> 
+        </tr> 
+      {% endfor %} 
+    </tbody> 
+  </table> 
+</div> 
+{% endblock %}

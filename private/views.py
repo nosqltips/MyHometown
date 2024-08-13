@@ -11,7 +11,8 @@ from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.utils.translation import gettext_lazy as _
-from .forms import UserRegisterForm, UserUpdateForm, ProfileForm, ProfileUpdateForm, EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
+from .forms import UserRegisterForm, UserUpdateForm, ProfileForm, ProfileUpdateForm
+from .forms import EventForm, CRCClassForm, ProjectForm, CRCRegistrationForm, TimeTrackForm
 from common.models import Event, CRCClass, Project, CRCRegister, TimeTrack
 from .models import Profile
 
@@ -99,14 +100,21 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
         else:
             return self.render_to_response(self.get_context_data(user_form=user_form, profile_form=profile_form))
 
+class ProfileListView(LoginRequiredMixin, ListView):
+    model = Profile
+    template_name = 'users/profile_list.html'
+    context_object_name = 'profiles'
+    ordering = ['user_id']  
+
+
 # EVENTS
-class EventListView(ListView):
+class EventListView(LoginRequiredMixin, ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'events'
     ordering = ['date_posted']    
 
-class EventDetailView(DetailView):
+class EventDetailView(LoginRequiredMixin, DetailView):
     model = Event
     template_name = 'events/event_detail.html'
     context_object_name = 'event'
@@ -150,13 +158,13 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 # CRC CLASSES
-class CRCClassListView(ListView):
+class CRCClassListView(LoginRequiredMixin, ListView):
     model = CRCClass
     template_name = 'crcclasses/crcclass_list.html'
     context_object_name = 'crcclasses'
     ordering = ['date_posted']    
 
-class CRCClassDetailView(DetailView):
+class CRCClassDetailView(LoginRequiredMixin, DetailView):
     model = CRCClass
     template_name = 'crcclasses/crcclass_detail.html'
     context_object_name = 'crcclass'
@@ -209,7 +217,7 @@ class CRCClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-class CRCClassRegistrationView(CreateView):
+class CRCClassRegistrationView(LoginRequiredMixin, CreateView):
     model = CRCRegister
     form_class = CRCRegistrationForm
     template_name = 'crcclasses/crcclass_registration.html'
@@ -238,13 +246,13 @@ class CRCClassRegistrationDeleteView(LoginRequiredMixin,  DeleteView):
 
 
 # PROJECTS
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = 'projects/project_list.html'
     context_object_name = 'projects'
     ordering = ['date_posted']    
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = 'projects/project_detail.html'
     context_object_name = 'project'
@@ -288,7 +296,7 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 # TIME TRACKING
-class TimeListView(ListView):
+class TimeListView(LoginRequiredMixin, ListView):
     model = TimeTrack
     template_name = 'time/time_list.html'
     context_object_name = 'times'
@@ -349,7 +357,7 @@ def aggregate_by_month():
     return report_data
 
 # Method to produce a report from TimeTrack model to aggregate by month
-class MonthlyReportView(ListView):
+class MonthlyReportView(LoginRequiredMixin, ListView):
     model = TimeTrack
     template_name = 'reports/monthly_report.html'
     context_object_name = 'report_data'
@@ -374,7 +382,7 @@ def export_to_csv(request):
     return response
 
 # Method to produce a report from TimeTrack model to aggregate by month
-class VolunteerReportView(ListView):
+class VolunteerReportView(LoginRequiredMixin, ListView):
     model = TimeTrack
     template_name = 'reports/volunteer_report.html'
     context_object_name = 'report_data'
