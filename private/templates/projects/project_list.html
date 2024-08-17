@@ -11,16 +11,15 @@
     <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="#">{{ project.author }}</a>
             <small class="text-muted">{{ project.date_posted|date:"F d, Y" }}</small>
           </div>
           <h2><a class="article-title" href="{% url 'project-detail' project.id %}">{{ project.title }}</a></h2>
-          {% if crcclass.summary %}
+          {% if project.summary %}
             <p class="article-content">{{ project.summary }}</p>
           {% else %}
             <p class="article-content">{{ project.description }}</p>
           {% endif %}
-          <p class="article-content"><b>Date/Time:</b>{{ project.time }} {{ project.time }}</p>
+          <p class="article-content"><b>Date/Time:</b>{{ project.date }} {{ project.time }}</p>
         </div>
       </article>
     {% endfor %}

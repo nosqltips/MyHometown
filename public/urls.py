@@ -3,6 +3,7 @@ from .views import EventListView, EventDetailView
 from .views import CRCClassListView, CRCClassDetailView, CRCClassRegistrationView, CRCClassRegistrationCompleteView
 from .views import ProjectListView, ProjectDetailView
 from . import views
+from . import qr_codes
 
 # URLConf
 urlpatterns = [
@@ -20,4 +21,9 @@ urlpatterns = [
 
     path('project/', ProjectListView.as_view(), name="public-project-list"),
     path('project/<int:pk>/', ProjectDetailView.as_view(), name="public-project-detail"),
+
+    # QR Codes
+    path('qr_code/event/<pk>/', qr_codes.event_code, name='public-event-code'),
+    path('qr_code/project/<pk>/', qr_codes.project_code, name='public-project-code'),
+    path('qr_code/crcclass/<pk>/', qr_codes.crcclass_code, name='public-crcclass-code'),
 ]

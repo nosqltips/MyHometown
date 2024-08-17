@@ -1,4 +1,6 @@
 from django.contrib.auth import views as auth_views
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import EventListView, EventDetailView, EventCreateView, EventUpdateView, EventDeleteView
 from .views import CRCClassListView, CRCClassDetailView, CRCClassCreateView, CRCClassUpdateView, CRCClassDeleteView, CRCClassRegistrationView, CRCClassRegistrationDeleteView
 from .views import ProjectListView, ProjectDetailView, ProjectCreateView, ProjectUpdateView, ProjectDeleteView
@@ -6,6 +8,7 @@ from .views import TimeListView, TimeCreateView, TimeDeleteView, ProfileUpdateVi
 from .views import MonthlyReportView, VolunteerReportView, export_to_csv
 from django.urls import path
 from . import views
+from . import qr_codes
 
 # URLConf
 urlpatterns = [
@@ -39,7 +42,7 @@ urlpatterns = [
     path('project/<int:pk>/', ProjectDetailView.as_view(), name="project-detail"),
     path('project/<int:pk>/update', ProjectUpdateView.as_view(), name="project-update"),
     path('project/<int:pk>/delete', ProjectDeleteView.as_view(), name="project-delete"),
-    path('projectss/new/', ProjectCreateView.as_view(), name="project-create"),
+    path('projects/new/', ProjectCreateView.as_view(), name="project-create"),
 
     path('time/', TimeListView.as_view(), name="time-list"),
     path('time/new/', TimeCreateView.as_view(), name="time-create"),
@@ -48,4 +51,12 @@ urlpatterns = [
     path('report/monthly', MonthlyReportView.as_view(), name="monthly-report"),
     path('report/volunteer', VolunteerReportView.as_view(), name="volunteer-report"),
     path('export_to_csv/', export_to_csv, name='export_to_csv'),
+
+    # QR Codes
+    path('qr_code/event/<pk>/', qr_codes.event_code, name='event-code'),
+    path('qr_code/project/<pk>/', qr_codes.project_code, name='project-code'),
+    path('qr_code/crcclass/<pk>/', qr_codes.crcclass_code, name='crcclass-code'),
 ]
+    # path("ckeditor5/", include('django_ckeditor_5.urls')),
+    # path("upload/", custom_upload_function, name="custom_upload_file"),
+# ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
