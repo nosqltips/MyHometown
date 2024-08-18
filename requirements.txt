@@ -1,5 +1,9 @@
 Django==5.0.4
 django_ckeditor==6.7.1
 django_crispy_forms==2.1
+crispy_bootstrap==4-2024.1
+bootstrap==4-0.1.0
 django_imagekit==5.0.0
+django_ckeditor_5==0.2.13
+django-debug-toolbar==4.4.6
 qrcode==7.4.2
