@@ -3,7 +3,7 @@
 
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
+    <div class="content-section" enctype="multipart/form-data">
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -12,7 +12,7 @@
             </fieldset>
             <p>
                 <div class="form-group">
-                    <button class="btn, btn-outline-info" type="submit">Post CRC Class</button>
+                    <button class="btn btn-success btn=sm mt-1 mb-1" type="submit">Post CRC Class</button>
                 </div>
             </p>
         </form>

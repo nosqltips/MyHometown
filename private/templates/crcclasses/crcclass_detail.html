@@ -5,18 +5,18 @@
 <div class="container">
   <article class="media content-section">
       <div class="media-body">
-        <div class="article-metadata">
-          <a class="mr-2" href="#">{{ crcclass.author }}</a>
-          <small class="text-muted">{{ crcclass.date_posted|date:"F d, Y" }}</small>
-        </div>
         <h2 class="article-title">{{ crcclass.title }}</h2>
         <p class="article-content">{{ crcclass.description }}</p>
-        <p class="article-content"><b>Date/Time:</b>{{ crclass.times }}</p>
+        <p class="article-content"><b>Date/Time: </b>{{ crclass.times }}</p>
         {% if crcclass.url %}
           <a class="url" href="{{ crcclass.url }}">{{ crcclass.url }}</p>
         {% endif %}
+        <img src="{% url 'crcclass-code' crcclass.id %}" alt="QR Code">
+        {% if crcclass.image %}
+        <img src="{{ crcclass.image.url }}" alt="{{ crcclass.title }}" style="max-width: 800px; width: 100%; height: auto;">
+        {% endif %}
         <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'crcclass-register' crcclass.id %}">Register someone for CRC Class</a>
-        {% if crcclass.author == user %}
+        {% if crcclass.author == user or user.is_staff %}
           <div>
             <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'crcclass-update' crcclass.id %}">Update</a>
             <a class="btn btn-danger btn=sm mt-1 mb-1" href="{% url 'crcclass-delete' crcclass.id %}">Delete</a>

@@ -20,7 +20,10 @@
             <p class="article-content">{{ project.description }}</p>
           {% endif %}
           <p class="article-content"><b>Date/Time:</b>{{ project.date }} {{ project.time }}</p>
-        </div>
+          {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" style="max-width: 800px; width: 100%; height: auto;">
+          {% endif %}
+          </div>
       </article>
     {% endfor %}
 </div>

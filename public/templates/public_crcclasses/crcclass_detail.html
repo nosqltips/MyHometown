@@ -16,6 +16,9 @@
           <a class="url" href="{{ crcclass.url }}">{{ crcclass.url }}</p>
         {% endif %}
         <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'public-crcclass-register' crcclass.id %}">Register for this CRC Class</a>
+        {% if crcclass.image %}
+        <img src="{{ crcclass.image.url }}" alt="{{ crcclass.title }}" style="max-width: 800px; width: 100%; height: auto;">
+        {% endif %}
       </div>
     </article>
 </div>

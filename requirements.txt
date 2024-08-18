@@ -1,0 +1,5 @@
+Django==5.0.4
+django_ckeditor==6.7.1
+django_crispy_forms==2.1
+django_imagekit==5.0.0
+qrcode==7.4.2

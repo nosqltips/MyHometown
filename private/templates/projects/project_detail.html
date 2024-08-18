@@ -10,11 +10,14 @@
         </div>
         <h2 class="article-title">{{ project.title }}</h2>
         <p class="article-content">{{ project.description }}</p>
-        <p class="article-content"><b>Date/Time:</b>{{ project.date }} {{ project.time }}</p>
+        <p class="article-content"><b>Date/Time: </b>{{ project.date }} {{ project.time }}</p>
         {% if project.url %}
           <a class="url" href="{{ project.url }}">{{ project.url }}</p>
         {% endif %}
         <img src="{% url 'project-code' project.id %}" alt="QR Code">
+        {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" style="max-width: 800px; width: 100%; height: auto;">
+        {% endif %}
         {% if project.author == user or user.is_staff %}
           <div>
             <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'project-update' project.id %}">Update</a>

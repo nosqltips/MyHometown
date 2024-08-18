@@ -2,11 +2,11 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from ckeditor.widgets import CKEditorWidget
 from .models import Profile
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, Fieldset, HTML, ButtonHolder, Submit
 from common.models import Event, CRCClass, CRCRegister, Project, TimeTrack
+
 
 class BrowserDateInput(forms.widgets.DateInput):
     input_type = 'date'
@@ -82,11 +82,11 @@ class ProfileUpdateForm(forms.ModelForm):
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description']
+
+        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description', 'image_file']
         widgets = {
-            "description": CKEditorWidget(),
+            "description": forms.Textarea(attrs={'rows': 10, 'cols': 50}),
             "date": BrowserDateInput(),
-            "time": forms.TimeInput
         }
         labels = {
             "title": _("Title of Event"),
@@ -95,22 +95,24 @@ class EventForm(forms.ModelForm):
             "location": _("Where will this event take place?"),
             "url": _("Related URL for more information if needed."),
             "summary": _("Summary of the Event"),
-            "description": _("Description of the Event")
+            "description": _("Description of the Event"),
+            "image_file": _("Image related to Event")
         }
 
 class CRCClassForm(forms.ModelForm):
     class Meta:
         model = CRCClass
-        fields = ['title', 'location', 'times', 'summary', 'description']
+        fields = ['title', 'location', 'times', 'summary', 'description', 'image_file']
         widgets = {
-            "description": CKEditorWidget(),
+            "description": forms.Textarea(attrs={'rows': 10, 'cols': 50}),
         }
         labels = {
             "title": _("Title of CRC Class"),
             "time": _("Dates and times that CRC class will take place"),
             "location": _("Where will this CRC class take place?"),
             "summary": _("Summary of the CRC Class"),
-            "description": _("Description of the CRC Class")
+            "description": _("Description of the CRC Class"),
+            "image_file": _("Image related to CRC Class")
         }
 
 class CRCRegistrationForm(forms.ModelForm):
@@ -127,11 +129,10 @@ class CRCRegistrationForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description']
+        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description', 'image_file']
         widgets = {
-            "description": CKEditorWidget(),
+            "description": forms.Textarea(attrs={'rows': 10, 'cols': 50}),
             "date": BrowserDateInput(),
-            "time": forms.TimeInput
         }
         labels = {
             "title": _("Title of Project"),
@@ -140,7 +141,8 @@ class ProjectForm(forms.ModelForm):
             "location": _("Where will this project take place?"),
             "url": _("Related URL for more information if needed."),
             "summary": _("Summary of the Project"),
-            "description": _("Description of the Project")
+            "description": _("Description of the Project"),
+            "image_file": _("Image related to Project")
         }
 
 class TimeTrackForm(forms.ModelForm):

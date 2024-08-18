@@ -17,7 +17,10 @@
             <p class="article-content">{{ crcclass.description }}</p>
           {% endif %}
           <p class="article-content"><b>Date/Time:</b> {{ crcclass.times }}</p>
-        </div>
+          {% if crcclass.image %}
+          <img src="{{ crcclass.image.url }}" alt="{{ crcclass.title }}" style="max-width: 800px; width: 100%; height: auto;">
+          {% endif %}
+          </div>
       </article>
     {% endfor %}
 </div>

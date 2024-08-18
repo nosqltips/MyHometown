@@ -141,7 +141,7 @@ class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         event = self.get_object()
-        if self.request.user == event.author:
+        if self.request.user == event.author or self.request.user.is_staff:
             return True
         return False
 
@@ -153,7 +153,7 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         event = self.get_object()
-        if self.request.user == event.author:
+        if self.request.user == event.author or self.request.user.is_staff:
             return True
         return False
 
@@ -199,7 +199,7 @@ class CRCClassUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         event = self.get_object()
-        if self.request.user == event.author:
+        if self.request.user == event.author or self.request.user.is_staff:
             return True
         return False
 
@@ -213,7 +213,7 @@ class CRCClassDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         event = self.get_object()
-        if self.request.user == event.author:
+        if self.request.user == event.author or self.request.user.is_staff:
             return True
         return False
 
@@ -279,7 +279,7 @@ class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     
     def test_func(self):
         project = self.get_object()
-        if self.request.user == project.author:
+        if self.request.user == project.author or self.request.user.is_staff:
             return True
         return False
 
@@ -291,7 +291,7 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         project = self.get_object()
-        if self.request.user == project.author:
+        if self.request.user == project.author or self.request.user.is_staff:
             return True
         return False
 
@@ -320,7 +320,7 @@ class TimeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         project = self.get_object()
-        if self.request.user == project.author:
+        if self.request.user == project.author or self.request.user.is_staff:
             return True
         return False
 

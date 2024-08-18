@@ -6,10 +6,6 @@
     {% for event in events %}
     <article class="media content-section">
         <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">{{ event.author }}</a>
-            <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
-          </div>
           <h2><a class="article-title" href="{% url 'public-event-detail' event.id %}">{{ event.title }}</a></h2>
           {% if crcclass.summary %}
             <p class="article-content">{{ event.summary }}</p>
@@ -17,7 +13,10 @@
             <p class="article-content">{{ event.description }}</p>
           {% endif %}
           <p class="article-content"><b>Date/Time:</b>{{ event.time }} {{ event.time }}</p>
-        </div>
+          {% if event.image %}
+          <img src="{{ event.image.url }}" alt="{{ event.title }}" style="max-width: 800px; width: 100%; height: auto;">
+          {% endif %}
+          </div>
       </article>
     {% endfor %}
 </div>

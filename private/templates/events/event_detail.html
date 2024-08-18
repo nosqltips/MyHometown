@@ -5,17 +5,18 @@
 <div class="container">
   <article class="media content-section">
       <div class="media-body">
-        <div class="article-metadata">
-          <a class="mr-2" href="#">{{ event.author }}</a>
-          <small class="text-muted">{{ event.date_posted|date:"F d, Y" }}</small>
-        </div>
         <h2 class="article-title">{{ event.title }}</h2>
         <p class="article-content">{{ event.description }}</p>
-        <p class="article-content"><b>Date/Time:</b>{{ event.date }} {{ event.time }}</p>
+        <p class="article-content"><b>Date/Time: </b>{{ event.date }} {{ event.time }}</p>
         {% if event.url %}
           <a class="url" href="{{ event.url }}">{{ event.url }}</p>
         {% endif %}
-        {% if event.author == user %}
+        <img src="{% url 'event-code' event.id %}" alt="QR Code">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}" style="max-width: 800px; width: 100%; height: auto;">
+        {% endif %}
+
+        {% if event.author == user or user.is_staff %}
           <div>
             <a class="btn btn-secondary btn=sm mt-1 mb-1" href="{% url 'event-update' event.id %}">Update</a>
             <a class="btn btn-danger btn=sm mt-1 mb-1" href="{% url 'event-delete' event.id %}">Delete</a>
