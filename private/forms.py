@@ -83,7 +83,7 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
 
-        fields = ['title', 'date', 'time', 'location', 'url', 'summary', 'description', 'image_file']
+        fields = ['title', 'date', 'time', 'location', 'url', 'is_private', 'summary', 'description', 'image_file']
         widgets = {
             "description": forms.Textarea(attrs={'rows': 10, 'cols': 50}),
             "date": BrowserDateInput(),
@@ -94,6 +94,7 @@ class EventForm(forms.ModelForm):
             "time": _("Time of Event"),
             "location": _("Where will this event take place?"),
             "url": _("Related URL for more information if needed."),
+            "is_private": _("Is this event private?"),
             "summary": _("Summary of the Event"),
             "description": _("Description of the Event"),
             "image_file": _("Image related to Event")

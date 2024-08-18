@@ -22,6 +22,7 @@ class Event(models.Model):
                                 processors=[ResizeToFit(1024, 768)],
                                 format='JPEG',
                                 options={'quality': 60})
+    is_private = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

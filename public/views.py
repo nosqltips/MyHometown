@@ -24,6 +24,7 @@ class EventListView(ListView):
     model = Event
     template_name = 'public_events/event_list.html'
     context_object_name = 'events'
+    queryset = Event.objects.filter(is_private=False)
     ordering = ['date_posted']    
 
 class EventDetailView(DetailView):
