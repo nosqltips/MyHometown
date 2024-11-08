@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-qtwd!(l=zu!azmdpzfvew-_=lj=*v6zj=_s8)mm!=$x+wkx$(a
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["173.165.134.67"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
