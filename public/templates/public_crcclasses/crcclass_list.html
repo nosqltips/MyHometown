@@ -2,25 +2,32 @@
 {% block title %}Current Classes at CRC{% endblock %}
 
 {% block content %}
+<H3>This is a list of available classes for Granger North East MyHometown Community Resource Centers.</H3>
+<H4>Click on a class to see more details and be able to register for a class.</H4>
+
 <div class="container">
     {% for crcclass in crcclasses %}
     <article class="media content-section">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">{{ crcclass.author }}</a>
-            <small class="text-muted">{{ crcclass.date_posted|date:"F d, Y" }}</small>
+        <div class="card">
+          <div class="photo">
+            {% if crcclass.image %}
+            <img src="{{ crcclass.image.url }}" alt="{{ crcclass.title }}" style="max-width: 200px; width: 100%; height: auto;">
+            {% endif %}
           </div>
-          <h2><a class="article-title" href="{% url 'public-crcclass-detail' crcclass.id %}">{{ crcclass.title }}</a></h2>
-          {% if crcclass.summary %}
-            <p class="article-content">{{ crcclass.summary }}</p>
-          {% else %}
-            <p class="article-content">{{ crcclass.description }}</p>
-          {% endif %}
-          <p class="article-content"><b>Date/Time:</b> {{ crcclass.times }}</p>
-          {% if crcclass.image %}
-          <img src="{{ crcclass.image.url }}" alt="{{ crcclass.title }}" style="max-width: 800px; width: 100%; height: auto;">
-          {% endif %}
+          <div class="details">
+            <div class="article-metadata">
+              <a class="mr-2" href="#">{{ crcclass.author }}</a>
+              <small class="text-muted">{{ crcclass.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'public-crcclass-detail' crcclass.id %}">{{ crcclass.title }}</a></h2>
+            {% if crcclass.summary %}
+              <p class="article-content">{{ crcclass.summary }}</p>
+            {% else %}
+              <p class="article-content">{{ crcclass.description }}</p>
+            {% endif %}
+            <p class="article-content"><b>Date/Time:</b> {{ crcclass.times }}</p>
           </div>
+        </div>
       </article>
     {% endfor %}
 </div>
